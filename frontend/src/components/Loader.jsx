@@ -10,9 +10,9 @@ const Loader = () => {
                     </div>
                 </div>
                 <h2 className="text-2xl font-bold code-font mt-4">
-                    <span className="text-blue-500">&lt;</span>
-                    <span className="gradient-text">Debmalya's Portfolio</span>
-                    <span className="text-blue-500">/&gt;</span>
+                    <span className="text-red-500">&lt;</span>
+                    <span className="gradient-text">₹ØHÅÑKμMÂR's Portfolio</span>
+                    <span className="text-green-500">/&gt;</span>
                 </h2>
             </div>
         </div>
