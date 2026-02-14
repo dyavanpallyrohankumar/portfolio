@@ -1,3 +1,16 @@
+# Node / dependency directories
+node_modules/
+.pnp/
+.pnp.js
+
+# Build output
+dist/
+build/
+.out/
+
+# Vite
+.vite/
+
 # Logs
 logs
 *.log
@@ -7,18 +20,120 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Testing
+coverage/
+coverage-final.json
+.nyc_output/
+jest.config.js
+jest.setup.js
+.vitest/
+.vitest_cache/
+
+# Testing — Cypress
+cypress/videos/
+cypress/screenshots/
+report/
+
+# Misc caches
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.jspm_packages/
+.cache-loader/
+
+# Environment files
+.env
+.env.*.local
+.env.local
+.env.test
+.env.production.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+Thumbs.db
+
+# System files
+Icon
+
+# Optional npm cache and logs
+.npm/
+.npmrc
+
+# Lock files (leave these if you want consistent installs; remove if you want to ignore)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Dependency directories for package managers
+bower_components/
+
+# Generated static files
+*.map
+*.gz
+
+# IDE / Editor specific
+*.sublime-* 
+*.code-workspace
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Secrets
+*.key
+*.pem
+
+# Local env for editors/OS
+local.env
+
+# Coverage and reports
+coverage/
+lcov-report/
+
+# Build artifacts
+*.tsbuildinfo
+
+# Lock files used by tools (uncomment to ignore)
+# pnpm-lock.yaml
+
+# Yarn v2/berry
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Storybook
+.storybook-built/
+
+# Optional: Node REPL history
+.node_repl_history
+
+# Parcel
+.cache
+.parcel-cache
+
+# Rust build artifacts (if present)
+target/
+
+# End of file
