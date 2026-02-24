@@ -8,6 +8,7 @@ import Hero from "./components/sections/Hero";
 import Projects from "./components/sections/Projects";
 import Resume from "./components/sections/Resume";
 import ParticlesBackground from "./components/background/ParticlesBackground";
+import Education from "./components/sections/education/EducationComponent";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/education" element={<Education />} />
           <Route path="/resume" element={<Resume />} />
         </Routes>
       </main>
@@ -50,3 +52,75 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
+
+//  return (
+//       <BrowserRouter basename="/">
+//         <Switch>
+//           <Route
+//             path="/"
+//             exact
+//             render={(props) =>
+//               settings.isSplash ? (
+//                 <Splash {...props} theme={this.props.theme} />
+//               ) : (
+//                 <Home {...props} theme={this.props.theme} />
+//               )
+//             }
+//           />
+//           <Route
+//             path="/home"
+//             render={(props) => <Home {...props} theme={this.props.theme} />}
+//           />
+//           <Route
+//             path="/experience"
+//             exact
+//             render={(props) => (
+//               <Experience {...props} theme={this.props.theme} />
+//             )}
+//           />
+//           <Route
+//             path="/education"
+//             render={(props) => (
+//               <Education {...props} theme={this.props.theme} />
+//             )}
+//           />
+//           <Route
+//             path="/opensource"
+//             render={(props) => (
+//               <Opensource {...props} theme={this.props.theme} />
+//             )}
+//           />
+//           <Route
+//             path="/contact"
+//             render={(props) => <Contact {...props} theme={this.props.theme} />}
+//           />
+
+//           {settings.isSplash && (
+//             <Route
+//               path="/splash"
+//               render={(props) => <Splash {...props} theme={this.props.theme} />}
+//             />
+//           )}
+
+//           <Route
+//             path="/projects"
+//             render={(props) => <Projects {...props} theme={this.props.theme} />}
+//           />
+//           <Route
+//             path="/resume"
+//             render={(props) => <ResumePage {...props} theme={this.props.theme} />}
+//           />
+//           <Route
+//             path="*"
+//             render={(props) => <Error404 {...props} theme={this.props.theme} />}
+//           />
+//         </Switch>
+//       </BrowserRouter>
+//     );

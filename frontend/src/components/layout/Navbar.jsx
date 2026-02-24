@@ -3,6 +3,16 @@
 import { useState, useEffect } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
+
+// const link = settings.isSplash ? "/splash" : "home";
+
+// <NavLink to={link} tag={Link} className="logo">
+//               <span style={{ color: theme.text }}> &lt;</span>
+//               <span className="logo-name" style={{ color: theme.text }}>
+//                 {greeting.logo_name}
+//               </span>
+//               <span style={{ color: theme.text }}>/&gt;</span>
+//             </NavLink>
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
