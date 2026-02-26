@@ -24,3 +24,19 @@ export const materialTealTheme = {
     headerColor: "#E1E2E1",
     splashBg: "#05505E",
 };
+
+export const materialTealDarkTheme = {
+    body: "#0D1117",              // Main dark background (GitHub dark style)
+    text: "#E6EDF3",              // Primary white text
+    expTxtColor: "#C9D1D9",       // Experience section text
+    highlight: "#22D3EE",         // Bright cyan accent
+    dark: "#161B22",              // Card / surface background
+    secondaryText: "#8B949E",     // Muted text
+    imageHighlight: "#1F6F8B",    // Subtle teal overlay
+    compImgHighlight: "#1C2128",  // Card image container
+    jacketColor: "#1F2937",       // Neutral surface
+    headerColor: "#22D3EE",       // Headings accent
+    splashBg: "#0B141A",          // Hero subtle background layer
+};
+
+export const choosenTheme = materialTealDarkTheme;
