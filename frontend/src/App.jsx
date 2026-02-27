@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Loader from "./components/Loader";
 import Footer from "./components/layout/Footer";
-import { Analytics } from "@vercel/analytics/next"
 
 const Hero = lazy(() => import("./components/sections/Hero"));
 const Projects = lazy(() => import("./components/sections/Projects"));
@@ -27,7 +26,6 @@ function App() {
     <div className="relative min-h-screen text-white bg-gray-950 overflow-x-hidden">
 
       <Navbar />
-      <Analytics />
       <main className="relative z-10">
         <Suspense fallback={<Loader />}>
           <Routes>
