@@ -146,8 +146,8 @@ export const allProjects = [
             "A scalable campus automation platform serving 5000+ users with role-based dashboards, secure authentication, and cloud deployment.",
         image:
             "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=900&q=80",
-        liveUrl: "#",
-        githubUrl: "#",
+        liveUrl: "https://play.google.com/store/apps/details?id=com.jntr.campusflow&pcampaignid=web_share",
+        githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
             "React",
             "JavaScript",
@@ -172,6 +172,7 @@ export const allProjects = [
             "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80",
         liveUrl: "#",
         githubUrl: "https://github.com/dyavanpallyrohankumar/mtechCutOffHub",
+
         technologies: [
             "SpringBoot",
             "Java",
@@ -191,8 +192,8 @@ export const allProjects = [
             "A secure student verification system with proxy-based API integration to protect backend sheet access.",
         image:
             "https://images.unsplash.com/photo-1508780709619-79562169bc64?w=900&q=80",
-        liveUrl: "#",
-        githubUrl: "#",
+        liveUrl: "https://student-data-lookup.vercel.app/",
+        githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
             "React",
             "JavaScript", "Google Apps Script",
@@ -213,8 +214,8 @@ export const allProjects = [
             "A client-side React application that parses WhatsApp exports and renders conversations in a structured UI with search and highlighting.",
         image:
             "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=900&q=80",
-        liveUrl: "#",
-        githubUrl: "#",
+        liveUrl: "https://readwhatsapp.vercel.app/",
+        githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
             "React",
             "JavaScript",
@@ -235,7 +236,7 @@ export const allProjects = [
         image:
             "https://images.unsplash.com/photo-1581093458791-9f3c3250d3d1?w=900&q=80",
         liveUrl: "#",
-        githubUrl: "#",
+        githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
             "Node.js",
             "Express",
@@ -256,8 +257,8 @@ export const allProjects = [
             "A scalable matchmaking platform with advanced filtering, secure profile management, and responsive UI.",
         image:
             "https://images.unsplash.com/photo-1529636798458-92182e662485?w=900&q=80",
-        liveUrl: "#",
-        githubUrl: "#",
+        liveUrl: "https://kathri-lagnaya.vercel.app/",
+        githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
             "React",
             "Node.js",
