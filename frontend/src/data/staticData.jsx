@@ -15,40 +15,130 @@ export const degrees = [
         website_link: "https://jntuhcej.ac.in",
     },
 ];
-
 export const certifications = [
+
+    // ─────────────────────────────────────────
+    // INFOSYS SPRINGBOARD (OCT 2025 BATCH)
+    // ─────────────────────────────────────────
+
     {
-        title: "Associate in IT Foundations",
-        subtitle: "Infosys Lex · 2025",
-        certificate_link: "#",
-        alt_name: "Infosys",
-        color_code: "#a3e635",
-        icon: "🏅",
+        title: "Associate in IT Foundation Skills (Java)",
+        subtitle: "Infosys Springboard · Oct 3, 2025",
+        certificate_link: "/certificates/Associate in IT Foundation Skills (Java).pdf",
+        color_code: "#0ea5e9",
+        icon: "☕"
     },
+
     {
-        title: "Data Structures & Algorithms using Java",
-        subtitle: "Infosys Lex · 2025",
-        certificate_link: "#",
-        alt_name: "DSA",
-        color_code: "#38bdf8",
-        icon: "⚙️",
+        title: "Software Engineering and Agile Software Development",
+        subtitle: "Infosys Springboard · Oct 3, 2025",
+        certificate_link: "/certificates/Software Engineering and Agile software development.pdf",
+        color_code: "#14b8a6",
+        icon: "⚙️"
     },
+
     {
-        title: "Spring Boot Microservices",
-        subtitle: "Udemy · 2024",
-        certificate_link: "#",
-        alt_name: "Spring",
-        color_code: "#4ade80",
-        icon: "🚀",
+        title: "Database Management System – Part 1",
+        subtitle: "Infosys Springboard · Oct 1, 2025",
+        certificate_link: "/certificates/Database Management System Part - 1.pdf",
+        color_code: "#6366f1",
+        icon: "🗄️"
     },
+
     {
-        title: "React — The Complete Guide",
-        subtitle: "Udemy · 2024",
-        certificate_link: "#",
-        alt_name: "React",
-        color_code: "#818cf8",
-        icon: "⚛️",
+        title: "Database Management System – Part 2",
+        subtitle: "Infosys Springboard · Oct 3, 2025",
+        certificate_link: "/certificates/Database Management System Part - 2.pdf",
+        color_code: "#6366f1",
+        icon: "🗄️"
     },
+
+
+
+
+
+    {
+        title: "Introduction to NoSQL Databases",
+        subtitle: "Infosys Springboard · Oct 3, 2025",
+        certificate_link: "/certificates/Introduction to NoSQL databases.pdf",
+        color_code: "#22c55e",
+        icon: "🌿"
+    },
+
+
+    // ─────────────────────────────────────────
+    // INFOSYS LEX (SEPT 2025 BATCH)
+    // ─────────────────────────────────────────
+
+    {
+        title: "Data Structures and Algorithms using Java (LEX)",
+        subtitle: "Infosys Lex · Sep 18, 2025",
+        certificate_link: "/certificates/Lex_Data Structures and Algorithms using Java.pdf",
+        color_code: "#0284c7",
+        icon: "📘"
+    },
+
+    {
+        title: "Programming using Java (LEX)",
+        subtitle: "Infosys Lex · Sep 11, 2025",
+        certificate_link: "/certificates/Lex_Programming Using Java.pdf",
+        color_code: "#0284c7",
+        icon: "📘"
+    },
+
+
+    // ─────────────────────────────────────────
+    // EXTERNAL CERTIFICATIONS
+    // ─────────────────────────────────────────
+
+    {
+        title: "Python Fundamentals for Beginners",
+        subtitle: "Great Learning Academy · Sep 2024",
+        certificate_link: "/certificates/Great Learing_Python Fundamentals .pdf",
+        color_code: "#2563eb",
+        icon: "🐍"
+    },
+
+    {
+        title: "Getting Started with Front-End and Web Development",
+        subtitle: "IBM (Coursera) · Jul 17, 2024 · With Honors",
+        certificate_link: "/certificates/Coursera 7WDGTPXMV486.pdf",
+        color_code: "#1e40af",
+        icon: "🌐"
+    },
+
+    {
+        title: "React JS Course",
+        subtitle: "Scaler Topics · Sep 22, 2025",
+        certificate_link: "/certificates/Sclar_Topics ReactJS.png",
+        color_code: "#0ea5e9",
+        icon: "⚛️"
+    },
+
+    {
+        title: "HTML Certification",
+        subtitle: "Complete Coding · Oct 27, 2024",
+        certificate_link: "/certificates/1730017341566-certificate.png",
+        color_code: "#f97316",
+        icon: "🧱"
+    },
+
+    {
+        title: "National Seminar on Technology-Based Teaching & Learning",
+        subtitle: "University of Hyderabad (CITD) · Mar 12, 2025",
+        certificate_link: "/certificates/CITD participation certificate.pdf",
+        color_code: "#a855f7",
+        icon: "🎓"
+    },
+
+    {
+        title: "Inplant Training Certificate",
+        subtitle: "Ordnance Factory Medak · May–Jun 2024",
+        certificate_link: "/certificates/ODF certificate.pdf",
+        color_code: "#64748b",
+        icon: "🏭"
+    }
+
 ];
 
 export const competitiveSites = [
@@ -149,18 +239,17 @@ export const allProjects = [
         liveUrl: "https://play.google.com/store/apps/details?id=com.jntr.campusflow&pcampaignid=web_share",
         githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
-            "React",
             "JavaScript",
             "MongoDB",
             "Express",
             "Node.js",
             "Redis",
-            "Docker", "Jenkins"
+            "Docker", "Jenkins", "Figma", "Git", "GitHub", "Postman", "ReactNative", "JWT", "GitHubActions"
         ],
         year: "2025",
         category: "Infrastructure",
         featured: true,
-        stats: { users: "5000+", uptime: "99.9%" },
+        stats: { stars: "5000+", uptime: "99.9%" },
     },
     {
         id: 2,
@@ -238,8 +327,8 @@ export const allProjects = [
         liveUrl: "#",
         githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
-            "Node.js",
-            "Express",
+            "SpringBoot",
+            "Java",
             "PostgreSQL",
             "Docker"
         ],
@@ -261,11 +350,12 @@ export const allProjects = [
         githubUrl: "https://github.com/dyavanpallyrohankumar?tab=repositories",
         technologies: [
             "React",
-            "Node.js",
-            "Express",
-            "MongoDB",
+            "SpringBoot",
+            "Java",
+            "PostgreSQL",
             "Tailwind",
-            "Docker"
+            "Docker",
+            "Postman"
         ],
         year: "2025",
         category: "E-Commerce",

@@ -9,6 +9,24 @@ import {
     SiTypescript, SiJenkins, SiTailwindcss,
 } from "react-icons/si";
 
+
+
+
+export function useIsMobile(breakpoint = 768) {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint);
+
+    useEffect(() => {
+        const onResize = () => setIsMobile(window.innerWidth <= breakpoint);
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+    }, [breakpoint]);
+
+    return isMobile;
+}
+
+
+
+
 // ── Typewriter hook ───────────────────────────────────────────────────────────
 function useTypewriter(words, speed = 80, pause = 2000) {
     const [display, setDisplay] = useState("");
@@ -268,6 +286,8 @@ function SocialBtn({ icon, href, label }) {
 
 // ── Main Hero ─────────────────────────────────────────────────────────────────
 export default function Hero() {
+    const isMobile = useIsMobile();
+
     const role = useTypewriter([
         "Full-Stack Developer",
         "Spring Boot Engineer",
@@ -299,7 +319,7 @@ export default function Hero() {
                     minHeight: "100vh",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     position: "relative", overflow: "hidden",
-                    padding: "100px 24px 60px",
+                    padding: isMobile ? "80px 20px 50px" : "100px 24px 60px",
                 }}>
                     {/* Background grid */}
                     <div style={{
@@ -309,15 +329,20 @@ export default function Hero() {
                     }} />
 
                     <ParallaxOrbs />
-
-                    {/* Floating tech pills */}
-                    <FloatingPill icon={<SiSpringboot />} label="Spring Boot" color="#4ade80" style={{ top: "18%", left: "4%" }} delay={1.2} />
-                    <FloatingPill icon={<FaReact />} label="React.js" color="#38bdf8" style={{ top: "28%", right: "3%" }} delay={1.5} />
-                    <FloatingPill icon={<FaDocker />} label="Docker" color="#38bdf8" style={{ bottom: "25%", left: "3%" }} delay={1.8} />
-                    <FloatingPill icon={<SiPostgresql />} label="PostgreSQL" color="#818cf8" style={{ bottom: "30%", right: "4%" }} delay={2.0} />
-
+                    {!isMobile && (
+                        <>
+                            {/* Floating tech pills */}
+                            < FloatingPill icon={<SiSpringboot />} label="Spring Boot" color="#4ade80" style={{ top: "18%", left: "4%" }} delay={1.2} />
+                            <FloatingPill icon={<FaReact />} label="React.js" color="#38bdf8" style={{ top: "28%", right: "3%" }} delay={1.5} />
+                            <FloatingPill icon={<FaDocker />} label="Docker" color="#38bdf8" style={{ bottom: "25%", left: "3%" }} delay={1.8} />
+                            <FloatingPill icon={<SiPostgresql />} label="PostgreSQL" color="#818cf8" style={{ bottom: "30%", right: "4%" }} delay={2.0} />
+                        </>
+                    )}
                     <div style={{ maxWidth: 900, width: "100%", position: "relative", zIndex: 1 }}>
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 60, alignItems: "center" }}>
+                        <div style={{
+                            display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
+                            gap: isMobile ? 40 : 60, alignItems: "center"
+                        }}>
 
                             {/* LEFT: Text */}
                             <div>
@@ -356,7 +381,7 @@ export default function Hero() {
                                 {/* Main name */}
                                 <motion.h1
                                     style={{
-                                        fontSize: "clamp(48px, 7vw, 86px)",
+                                        fontSize: isMobile ? "48px" : "clamp(48px, 7vw, 86px)",
                                         fontWeight: 900, lineHeight: 0.95,
                                         letterSpacing: "-0.04em",
                                         fontFamily: "'Playfair Display', Georgia, serif",
@@ -448,13 +473,18 @@ export default function Hero() {
 
                                 {/* CTAs */}
                                 <motion.div
-                                    style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", marginBottom: 36 }}
+                                    style={{
+                                        display: "flex",
+                                        gap: 14,
+                                        flexDirection: isMobile ? "column" : "row",
+                                        alignItems: "center", flexWrap: "wrap", marginBottom: 36
+                                    }}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 1.2 }}
                                 >
                                     <motion.a
-                                        href="#projects"
+                                        href="/projects"
                                         style={{
                                             display: "inline-flex", alignItems: "center", gap: 8,
                                             padding: "13px 28px", borderRadius: 10,
@@ -524,8 +554,10 @@ export default function Hero() {
                         {/* Stats row */}
                         <motion.div
                             style={{
-                                display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14,
-                                marginTop: 60,
+                                display: "grid",
+                                gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+                                gap: 14,
+                                marginTop: isMobile ? 40 : 60,
                             }}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -569,7 +601,12 @@ export default function Hero() {
                             — ABOUT ME
                         </motion.p>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }}>
+                        <div style={{
+                            display: "grid",
+                            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                            gap: isMobile ? 40 : 72,
+                            alignItems: "center"
+                        }}>
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
                                 whileInView={{ opacity: 1, x: 0 }}
@@ -712,7 +749,11 @@ export default function Hero() {
                             </div>
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+                        <div style={{
+                            display: "grid",
+                            gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+                            gap: 20
+                        }}>
                             {[
                                 {
                                     icon: "⚙️", title: "Backend Engineering",
@@ -754,7 +795,7 @@ export default function Hero() {
                                 <motion.div
                                     key={i}
                                     style={{
-                                        padding: "28px 28px 24px",
+                                        padding: isMobile ? "22px 20px" : "28px 28px 24px",
                                         borderRadius: 18,
                                         border: "1px solid rgba(255,255,255,0.06)",
                                         background: "#0d0d0d",
@@ -809,7 +850,7 @@ export default function Hero() {
             .hide-on-mobile { display: none !important; }
           }
         `}</style>
-            </div>
+            </div >
         </>
     );
 }

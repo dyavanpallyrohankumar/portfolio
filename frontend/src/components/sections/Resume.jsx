@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
     FaDownload, FaExpand, FaCompress, FaExternalLinkAlt,
@@ -9,6 +9,7 @@ import {
     SiSpringboot, SiPostgresql, SiMongodb,
     SiJenkins, SiTailwindcss,
 } from "react-icons/si";
+import { useIsMobile } from "./Hero";
 
 // ── Quick-stat row pulled from resume ────────────────────────────────────────
 const RESUME_STATS = [
@@ -32,7 +33,7 @@ const SKILLS_PREVIEW = [
 ];
 
 // ── PDF Preview panel ─────────────────────────────────────────────────────────
-function PDFPreview({ fullscreen, onToggleFullscreen }) {
+function PDFPreview({ fullscreen, onToggleFullscreen, isMobile }) {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
 
@@ -43,13 +44,19 @@ function PDFPreview({ fullscreen, onToggleFullscreen }) {
             overflow: "hidden",
             border: "1px solid rgba(163,230,53,0.15)",
             background: "#0d0d0d",
-            height: fullscreen ? "100vh" : "85vh",
+            height: fullscreen
+                ? "100vh"
+                : isMobile
+                    ? "70vh"
+                    : "85vh",
             display: "flex", flexDirection: "column",
         }}>
             {/* PDF toolbar */}
             <div style={{
                 display: "flex", alignItems: "center", justifyContent: "space-between",
-                padding: "14px 20px",
+                padding: isMobile ? "12px 14px" : "14px 20px",
+                flexWrap: "wrap",
+                rowGap: 8,
                 borderBottom: "1px solid rgba(255,255,255,0.05)",
                 background: "rgba(0,0,0,0.4)",
                 backdropFilter: "blur(10px)",
@@ -90,6 +97,8 @@ function PDFPreview({ fullscreen, onToggleFullscreen }) {
                             background: "rgba(255,255,255,0.03)",
                             color: "rgba(248,250,252,0.45)", fontSize: 12,
                             cursor: "pointer", fontFamily: "'DM Mono', monospace",
+                            width: isMobile ? "100%" : "auto",
+                            justifyContent: "center",
                         }}
                         whileHover={{ borderColor: "rgba(163,230,53,0.3)", color: "#a3e635" }}
                     >
@@ -122,7 +131,7 @@ function PDFPreview({ fullscreen, onToggleFullscreen }) {
                     </div>
                 )}
 
-                {error ? (
+                {/* {error ? (
                     <div style={{
                         position: "absolute", inset: 0,
                         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
@@ -159,6 +168,97 @@ function PDFPreview({ fullscreen, onToggleFullscreen }) {
                             opacity: loaded ? 1 : 0, transition: "opacity 0.4s",
                         }}
                     />
+                )} */}
+
+                {error ? (
+                    <div style={{
+                        position: "absolute", inset: 0,
+                        display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center",
+                        gap: 20, padding: 32, background: "#0d0d0d",
+                    }}>
+                        <div style={{ fontSize: 48 }}>📄</div>
+                        <p style={{
+                            fontSize: 15,
+                            color: "rgba(248,250,252,0.4)",
+                            textAlign: "center",
+                            lineHeight: 1.7,
+                            maxWidth: 320
+                        }}>
+                            PDF preview not available.
+                        </p>
+                        <motion.a
+                            href="/Resume.pdf"
+                            download="Rohankumar_Resume.pdf"
+                            style={{
+                                display: "flex", alignItems: "center", gap: 8,
+                                padding: "12px 28px", borderRadius: 10,
+                                background: "#a3e635", color: "#080808",
+                                fontSize: 14, fontWeight: 800, textDecoration: "none",
+                            }}
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.96 }}
+                        >
+                            <FaDownload size={13} /> Download Resume
+                        </motion.a>
+                    </div>
+                ) : isMobile ? (
+                    <div
+                        style={{
+                            position: "absolute",
+                            inset: 0,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: 20,
+                            padding: 32,
+                            background: "#0d0d0d",
+                            textAlign: "center",
+                        }}
+                    >
+                        <FaDownload size={40} color="#a3e635" />
+
+                        <p style={{
+                            fontSize: 14,
+                            color: "rgba(248,250,252,0.4)",
+                            fontFamily: "'DM Mono', monospace"
+                        }}>
+                            Resume preview is optimized for desktop.
+                        </p>
+
+                        <motion.a
+                            href="/Resume.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                padding: isMobile ? "10px 20px" : "12px 28px",
+                                borderRadius: 10,
+                                background: "#a3e635",
+                                color: "#080808",
+                                fontWeight: 800,
+                                textDecoration: "none",
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.96 }}
+                        >
+                            Open Resume
+                        </motion.a>
+                    </div>
+                ) : (
+                    <iframe
+                        src="/Resume.pdf"
+                        title="Rohankumar Resume"
+                        onLoad={() => setLoaded(true)}
+                        onError={() => setError(true)}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            border: "none",
+                            opacity: loaded ? 1 : 0,
+                            transition: "opacity 0.4s",
+                        }}
+                    />
                 )}
             </div>
         </div>
@@ -167,9 +267,21 @@ function PDFPreview({ fullscreen, onToggleFullscreen }) {
 
 // ── Main Resume ───────────────────────────────────────────────────────────────
 export default function Resume() {
+    const isMobile = useIsMobile();
     const ref = useRef();
     const inView = useInView(ref, { once: true, margin: "-80px" });
     const [fullscreen, setFullscreen] = useState(false);
+    useEffect(() => {
+        if (fullscreen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [fullscreen]);
 
     return (
         <>
@@ -187,7 +299,9 @@ export default function Resume() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        <PDFPreview fullscreen onToggleFullscreen={() => setFullscreen(false)} />
+                        <PDFPreview fullscreen={false}
+                            isMobile={isMobile}
+                            onToggleFullscreen={() => setFullscreen(true)} />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -197,7 +311,7 @@ export default function Resume() {
                 ref={ref}
                 style={{
                     background: "#080808",
-                    padding: "100px 24px 120px",
+                    padding: isMobile ? "80px 20px 90px" : "100px 24px 120px",
                     position: "relative",
                     overflow: "hidden",
                     fontFamily: "'DM Sans', sans-serif",
@@ -223,7 +337,13 @@ export default function Resume() {
                         <motion.p style={{ fontSize: 11, letterSpacing: "0.3em", color: "#a3e635", fontFamily: "'DM Mono', monospace", margin: "0 0 16px" }}>
                             — MY RESUME
                         </motion.p>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24 }}>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: isMobile ? "column" : "row",
+                            justifyContent: "space-between",
+                            alignItems: isMobile ? "flex-start" : "flex-end",
+                            gap: isMobile ? 24 : 24, flexWrap: "wrap",
+                        }}>
                             <h2 style={{
                                 fontSize: "clamp(46px, 6vw, 78px)", fontWeight: 900,
                                 letterSpacing: "-0.04em", lineHeight: 1,
@@ -237,19 +357,23 @@ export default function Resume() {
                             </h2>
 
                             {/* Download CTA */}
-                            <div style={{ display: "flex", gap: 12 }}>
-                                <motion.a
-                                    href="/Resume.pdf"
-                                    download="Rohankumar_Resume.pdf"
-                                    style={{
-                                        display: "inline-flex", alignItems: "center", gap: 9,
-                                        padding: "13px 28px", borderRadius: 10,
-                                        background: "#a3e635", color: "#080808",
-                                        fontSize: 14, fontWeight: 800, textDecoration: "none",
-                                    }}
-                                    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(163,230,53,0.25)" }}
-                                    whileTap={{ scale: 0.96 }}
-                                >
+                            <div style={{
+                                display: "flex",
+                                gap: 12,
+                                flexDirection: isMobile ? "column" : "row",
+                                width: isMobile ? "100%" : "auto"
+                            }}>                                <motion.a
+                                href="/Resume.pdf"
+                                download="Rohankumar_Resume.pdf"
+                                style={{
+                                    display: "inline-flex", alignItems: "center", gap: 9,
+                                    padding: "13px 28px", borderRadius: 10,
+                                    background: "#a3e635", color: "#080808",
+                                    fontSize: 14, fontWeight: 800, textDecoration: "none",
+                                }}
+                                whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(163,230,53,0.25)" }}
+                                whileTap={{ scale: 0.96 }}
+                            >
                                     <FaDownload size={13} /> Download PDF
                                 </motion.a>
                                 <motion.a
@@ -274,7 +398,11 @@ export default function Resume() {
 
                     {/* ── Stats row ─────────────────────────────────────────── */}
                     <motion.div
-                        style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 40 }}
+                        style={{
+                            display: "grid", gridTemplateColumns: isMobile
+                                ? "repeat(2, 1fr)"
+                                : "repeat(4, 1fr)", gap: 14, marginBottom: 40
+                        }}
                         initial={{ opacity: 0, y: 30 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 0.2, duration: 0.7 }}
@@ -305,7 +433,7 @@ export default function Resume() {
                     </motion.div>
 
                     {/* ── Main grid ─────────────────────────────────────────── */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 28, alignItems: "start" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 300px", gap: 28, alignItems: "start" }}>
 
                         {/* PDF Preview */}
                         <motion.div
@@ -313,7 +441,9 @@ export default function Resume() {
                             animate={inView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: 0.3, duration: 0.8 }}
                         >
-                            <PDFPreview fullscreen={false} onToggleFullscreen={() => setFullscreen(true)} />
+                            <PDFPreview fullscreen={true}
+                                isMobile={isMobile}
+                                onToggleFullscreen={() => setFullscreen(false)} />
                         </motion.div>
 
                         {/* Right sidebar */}
@@ -325,7 +455,7 @@ export default function Resume() {
                         >
                             {/* Skills snapshot */}
                             <div style={{
-                                padding: "24px 22px", borderRadius: 16,
+                                padding: isMobile ? "20px 18px" : "24px 22px", borderRadius: 16,
                                 border: "1px solid rgba(255,255,255,0.06)",
                                 background: "#0d0d0d",
                             }}>

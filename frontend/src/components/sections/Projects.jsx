@@ -5,14 +5,28 @@ import {
     FaHtml5, FaCss3Alt, FaPython, FaDocker, FaFigma,
     FaJava,
     FaAws,
+    FaGitAlt,
 } from "react-icons/fa";
 import {
     SiMongodb, SiExpress, SiJavascript, SiTypescript,
     SiTailwindcss, SiNextdotjs, SiPostgresql, SiRedis, SiGraphql,
     SiSpringboot,
     SiJenkins,
+    SiGithubactions,
+    SiSupabase,
+    SiFlydotio,
+    SiRender,
+    SiRailway,
+    SiNetlify,
+    SiFramer,
+    SiVercel,
+    SiJsonwebtokens,
+    SiMysql,
+    SiPostman,
 } from "react-icons/si";
 import { allProjects } from "../../data/staticData";
+import { TbBrandReactNative } from "react-icons/tb";
+import { useIsMobile } from "./Hero";
 
 // const allProjects =allProjects
 // ── Tech Icon Map ─────────────────────────────────────────────────────────────
@@ -37,6 +51,20 @@ const techMap = {
     Java: { icon: <FaJava />, color: "#f97316" },
     AWS: { icon: <FaAws />, color: "#fb923c" },
     Jenkins: { icon: <SiJenkins />, color: "#f87171" },
+    Git: { icon: <FaGitAlt />, color: "#F05032" },
+    GitHub: { icon: <FaGithub />, color: "#f1f5f9" },
+    Postman: { icon: <SiPostman />, color: "#FF6C37" },
+    MySQL: { icon: <SiMysql />, color: "#4479A1" },
+    ReactNative: { icon: <TbBrandReactNative />, color: "#61DAFB" },
+    JWT: { icon: <SiJsonwebtokens />, color: "#d63aff" },
+    Vercel: { icon: <SiVercel />, color: "#ffffff" },
+    FramerMotion: { icon: <SiFramer />, color: "#0055FF" },
+    Netlify: { icon: <SiNetlify />, color: "#00c7b7" },
+    Railway: { icon: <SiRailway />, color: "#f92672" },
+    Render: { icon: <SiRender />, color: "#46e3b7" },
+    FlyIo: { icon: <SiFlydotio />, color: "#24185b" },
+    Supabase: { icon: <SiSupabase />, color: "#3ecf8e" },
+    GitHubActions: { icon: <SiGithubactions />, color: "#2088ff" },
 
 };
 
@@ -105,13 +133,14 @@ function AnimNum({ n }) {
 // ── Scrolling ticker ──────────────────────────────────────────────────────────
 const ALL_TECH = ["React", "Node.js", "TypeScript", "Next.js", "MongoDB", "PostgreSQL", "Redis", "GraphQL", "Docker", "Tailwind", "Python", "Figma", "JavaScript", "Express"];
 function Ticker() {
+    const isMobile = useIsMobile();
     const items = [...ALL_TECH, ...ALL_TECH];
     return (
         <div style={{ overflow: "hidden", borderTop: "1px solid rgba(163,230,53,0.15)", borderBottom: "1px solid rgba(163,230,53,0.15)", padding: "10px 0", margin: "0 0 72px" }}>
             <motion.div
                 style={{ display: "flex", gap: 40, width: "max-content", alignItems: "center" }}
                 animate={{ x: [0, "-50%"] }}
-                transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: isMobile ? 30 : 22, repeat: Infinity, ease: "linear" }}
             >
                 {items.map((t, i) => {
                     const tech = techMap[t];
@@ -130,6 +159,7 @@ function Ticker() {
 
 // ── Featured Card ─────────────────────────────────────────────────────────────
 function FeaturedCard({ project }) {
+    const isMobile = useIsMobile();
     const ref = useRef();
     const inView = useInView(ref, { once: true, margin: "-60px" });
     const mouseX = useMotionValue(0.5);
@@ -157,9 +187,9 @@ function FeaturedCard({ project }) {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
             <motion.div
-                style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
-                onMouseMove={handleMove}
-                onMouseLeave={handleLeave}
+                style={isMobile ? {} : { rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
+                onMouseMove={!isMobile ? handleMove : undefined}
+                onMouseLeave={!isMobile ? handleLeave : undefined}
             >
                 <div style={{
                     position: "relative",
@@ -168,8 +198,8 @@ function FeaturedCard({ project }) {
                     border: "1px solid rgba(163,230,53,0.2)",
                     background: "#0d0d0d",
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    minHeight: 460,
+                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    minHeight: isMobile ? "auto" : 460,
                 }}>
                     {/* Left: image */}
                     <div style={{ position: "relative", overflow: "hidden" }}>
@@ -198,7 +228,7 @@ function FeaturedCard({ project }) {
                     </div>
 
                     {/* Right: content */}
-                    <div style={{ padding: "48px 44px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div style={{ padding: isMobile ? "28px 22px" : "48px 44px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <div style={{ fontSize: 11, letterSpacing: "0.2em", color: "#a3e635", fontFamily: "'DM Mono', monospace", marginBottom: 12 }}>
                             ★ FEATURED · {project.category.toUpperCase()}
                         </div>
@@ -219,7 +249,7 @@ function FeaturedCard({ project }) {
                         </p>
 
                         {/* Stats */}
-                        <div style={{ display: "flex", gap: 28, marginBottom: 28 }}>
+                        <div style={{ display: "flex", gap: isMobile ? 20 : 28, marginBottom: 28 }}>
                             {[
                                 { label: "GitHub Stars", val: project.stats.stars },
                                 { label: "Forks", val: project.stats.forks },
@@ -252,7 +282,11 @@ function FeaturedCard({ project }) {
                         </div>
 
                         {/* Actions */}
-                        <div style={{ display: "flex", gap: 12 }}>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: isMobile ? "column" : "row",
+                            gap: 12,
+                        }}>
                             <MagneticBtn href={project.liveUrl} style={{
                                 padding: "12px 28px", borderRadius: 10,
                                 background: "#a3e635", color: "#0a0a0a",
@@ -280,6 +314,7 @@ function FeaturedCard({ project }) {
 
 // ── Project Card ──────────────────────────────────────────────────────────────
 function ProjectCard({ project, index }) {
+    const isMobile = useIsMobile();
     const ref = useRef();
     const inView = useInView(ref, { once: true, margin: "-60px" });
     const [hovered, setHovered] = useState(false);
@@ -309,7 +344,7 @@ function ProjectCard({ project, index }) {
                 }}
             >
                 {/* Image */}
-                <div style={{ position: "relative", overflow: "hidden", height: 220 }}>
+                <div style={{ position: "relative", overflow: "hidden", height: isMobile ? 190 : 220 }}>
                     <motion.img
                         src={project.image}
                         alt={project.title}
@@ -436,10 +471,18 @@ function ProjectCard({ project, index }) {
 const CATS = ["All", "AI / Fullstack", "E-Commerce", "Design Systems", "Analytics", "Infrastructure"];
 
 function FilterTabs({ active, setActive }) {
+    const isMobile = useIsMobile();
+
     return (
         <motion.div
-            style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 48 }}
-            initial={{ opacity: 0, y: 20 }}
+            style={{
+                display: "flex",
+                flexWrap: isMobile ? "nowrap" : "wrap",
+                overflowX: isMobile ? "auto" : "visible",
+                gap: 8,
+                marginBottom: 48,
+                paddingBottom: isMobile ? 6 : 0,
+            }} initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
         >
@@ -470,6 +513,7 @@ function FilterTabs({ active, setActive }) {
 
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function Projects() {
+    const isMobile = useIsMobile();
     const featured = allProjects.find((p) => p.featured);
     const rest = allProjects.filter((p) => !p.featured);
     const [activeFilter, setActiveFilter] = useState("All");
@@ -486,7 +530,7 @@ export default function Projects() {
 
             <section style={{
                 background: "#080808",
-                padding: "100px 0 120px",
+                padding: isMobile ? "80px 0 90px" : "100px 0 120px",
                 fontFamily: "'DM Sans', sans-serif",
                 position: "relative",
                 overflow: "hidden",
@@ -519,7 +563,13 @@ export default function Projects() {
                             — SELECTED WORK
                         </motion.p>
 
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24 }}>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: isMobile ? "column" : "row",
+                            justifyContent: "space-between",
+                            alignItems: isMobile ? "flex-start" : "flex-end",
+                            gap: isMobile ? 28 : 24, flexWrap: "wrap",
+                        }}>
                             <motion.h2
                                 style={{
                                     fontSize: "clamp(52px, 7vw, 88px)",
@@ -543,8 +593,12 @@ export default function Projects() {
 
                             {/* Meta stats */}
                             <motion.div
-                                style={{ display: "flex", gap: 40 }}
-                                initial={{ opacity: 0 }}
+                                style={{
+                                    display: "flex",
+                                    gap: isMobile ? 24 : 40,
+                                    width: isMobile ? "100%" : "auto",
+                                    justifyContent: isMobile ? "space-between" : "flex-end",
+                                }} initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.3 }}
@@ -580,7 +634,9 @@ export default function Projects() {
                             key={activeFilter}
                             style={{
                                 display: "grid",
-                                gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+                                gridTemplateColumns: isMobile
+                                    ? "1fr"
+                                    : "repeat(auto-fill, minmax(340px, 1fr))",
                                 gap: 24,
                             }}
                             initial={{ opacity: 0 }}
@@ -608,7 +664,7 @@ export default function Projects() {
                             href="https://github.com"
                             style={{
                                 display: "inline-flex", alignItems: "center", gap: 10,
-                                padding: "14px 36px", borderRadius: 12,
+                                padding: isMobile ? "12px 26px" : "14px 36px", borderRadius: 12,
                                 border: "1px solid rgba(163,230,53,0.4)",
                                 background: "rgba(163,230,53,0.06)",
                                 color: "#a3e635", fontSize: 15, fontWeight: 700,

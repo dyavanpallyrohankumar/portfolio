@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { certifications, competitiveSites, degrees } from "../../data/staticData";
+import { useIsMobile } from "./Hero";
 
 // const degrees = degrees
 
@@ -61,7 +62,7 @@ function SectionLabel({ text }) {
 }
 
 // ── Degree card ───────────────────────────────────────────────────────────────
-function DegreeCard({ degree, index }) {
+function DegreeCard({ degree, index, isMobile }) {
     const ref = useRef();
     const inView = useInView(ref, { once: true, margin: "-80px" });
     const [expanded, setExpanded] = useState(true);
@@ -95,7 +96,7 @@ function DegreeCard({ degree, index }) {
                 transition={{ duration: 0.7, delay: 0.3 }}
             />
 
-            <div style={{ padding: "32px 36px", flex: 1 }}>
+            <div style={{ padding: isMobile ? "22px 18px" : "32px 36px", flex: 1 }}>
                 {/* Header row */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 14, marginBottom: 20 }}>
                     <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
@@ -370,6 +371,7 @@ function SiteChip({ site, index }) {
 
 // ── Main Education Section ────────────────────────────────────────────────────
 export default function Education() {
+    const isMobile = useIsMobile();
     return (
         <>
             <style>{`
@@ -382,8 +384,7 @@ export default function Education() {
                 id="education"
                 style={{
                     background: "#080808",
-                    padding: "100px 0 120px",
-                    position: "relative",
+                    padding: isMobile ? "80px 0 90px" : "100px 0 120px", position: "relative",
                     overflow: "hidden",
                     fontFamily: "'DM Sans', sans-serif",
                     color: "#f8fafc",
@@ -422,8 +423,9 @@ export default function Education() {
 
                         <motion.h1
                             style={{
-                                fontSize: "clamp(52px, 8vw, 92px)",
-                                fontWeight: 900, lineHeight: 1,
+                                fontSize: isMobile
+                                    ? "clamp(34px, 9vw, 44px)"
+                                    : "clamp(52px, 8vw, 92px)", fontWeight: 900, lineHeight: 1,
                                 letterSpacing: "-0.04em",
                                 fontFamily: "'Playfair Display', Georgia, serif",
                                 color: "#f8fafc", margin: "0 0 20px",
@@ -449,7 +451,7 @@ export default function Education() {
 
                         {/* Stats row */}
                         <motion.div
-                            style={{ display: "flex", justifyContent: "center", gap: 48, marginBottom: 44, flexWrap: "wrap" }}
+                            style={{ display: "flex", justifyContent: "center", gap: isMobile ? 24 : 48, marginBottom: 44, flexWrap: "wrap" }}
                             initial={{ opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.7 }}
@@ -498,8 +500,7 @@ export default function Education() {
                         <SectionLabel text="ACADEMIC DEGREES" />
                         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                             {degrees.map((degree, i) => (
-                                <DegreeCard key={i} degree={degree} index={i} />
-                            ))}
+                                <DegreeCard key={i} degree={degree} index={i} isMobile={isMobile} />))}
                         </div>
                     </section>
 
@@ -508,8 +509,9 @@ export default function Education() {
                         <SectionLabel text="CERTIFICATIONS" />
                         <div style={{
                             display: "grid",
-                            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-                            gap: 20,
+                            gridTemplateColumns: isMobile
+                                ? "1fr"
+                                : "repeat(auto-fit, minmax(220px, 1fr))", gap: 20,
                         }}>
                             {certifications.map((cert, i) => (
                                 <CertCard key={i} cert={cert} index={i} />
@@ -520,9 +522,13 @@ export default function Education() {
                     {/* ── BOTTOM CTA STRIP ─────────────────────────────────────── */}
                     <motion.div
                         style={{
-                            display: "flex", alignItems: "center", justifyContent: "space-between",
-                            flexWrap: "wrap", gap: 24,
-                            padding: "28px 36px", borderRadius: 18,
+                            display: "flex",
+                            flexDirection: isMobile ? "column" : "row",
+                            alignItems: isMobile ? "flex-start" : "center",
+                            justifyContent: "space-between",
+                            gap: 20,
+                            padding: isMobile ? "22px 20px" : "28px 36px",
+                            borderRadius: 18,
                             border: "1px solid rgba(163,230,53,0.15)",
                             background: "linear-gradient(135deg, rgba(163,230,53,0.04) 0%, rgba(8,8,8,0) 100%)",
                         }}
@@ -538,18 +544,24 @@ export default function Education() {
                                 Check out my full project portfolio
                             </h3>
                         </div>
-                        <div style={{ display: "flex", gap: 12 }}>
-                            <motion.a
-                                href="/projects"
-                                style={{
-                                    display: "inline-flex", alignItems: "center", gap: 8,
-                                    padding: "12px 26px", borderRadius: 10,
-                                    background: "#a3e635", color: "#080808",
-                                    fontSize: 14, fontWeight: 800, textDecoration: "none",
-                                }}
-                                whileHover={{ scale: 1.05, boxShadow: "0 0 28px rgba(163,230,53,0.25)" }}
-                                whileTap={{ scale: 0.96 }}
-                            >
+                        <div style={{
+                            display: "flex",
+                            gap: 12,
+                            flexDirection: isMobile ? "column" : "row",
+                            width: isMobile ? "100%" : "auto"
+                        }}>                            <motion.a
+                            href="/projects"
+                            style={{
+                                display: "inline-flex", alignItems: "center", gap: 8,
+                                padding: "12px 26px", borderRadius: 10,
+                                background: "#a3e635", color: "#080808",
+                                fontSize: 14, fontWeight: 800, textDecoration: "none",
+                                width: isMobile ? "100%" : "auto",
+                                justifyContent: "center",
+                            }}
+                            whileHover={{ scale: 1.05, boxShadow: "0 0 28px rgba(163,230,53,0.25)" }}
+                            whileTap={{ scale: 0.96 }}
+                        >
                                 View Projects →
                             </motion.a>
                             <motion.a
@@ -559,6 +571,8 @@ export default function Education() {
                                     padding: "11px 22px", borderRadius: 10,
                                     border: "1px solid rgba(163,230,53,0.3)",
                                     color: "#a3e635", fontSize: 14, fontWeight: 600, textDecoration: "none",
+                                    width: isMobile ? "100%" : "auto",
+                                    justifyContent: "center",
                                 }}
                                 whileHover={{ background: "rgba(163,230,53,0.08)" }}
                                 whileTap={{ scale: 0.96 }}

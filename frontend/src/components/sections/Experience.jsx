@@ -11,6 +11,7 @@ import {
 } from "react-icons/si";
 import { TbBrandCpp } from "react-icons/tb";
 import { coreCS, experiences } from "../../data/staticData";
+import { useIsMobile } from "./Hero";
 
 // const experiences = experiences
 // const coreCS = coreCS
@@ -72,8 +73,22 @@ export const skillGroups = [
         ],
     },
 ];
+
+// export function useIsMobile(breakpoint = 900) {
+//     const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint);
+
+//     useEffect(() => {
+//         const onResize = () => setIsMobile(window.innerWidth <= breakpoint);
+//         window.addEventListener("resize", onResize);
+//         return () => window.removeEventListener("resize", onResize);
+//     }, [breakpoint]);
+
+//     return isMobile;
+// }
 // ── Animated skill bar ────────────────────────────────────────────────────────
 function SkillBar({ skill, delay = 0 }) {
+
+    const isMobile = useIsMobile;
     const ref = useRef();
     const inView = useInView(ref, { once: true, margin: "-40px" });
     const [hovered, setHovered] = useState(false);
@@ -91,7 +106,7 @@ function SkillBar({ skill, delay = 0 }) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ color: skill.color, fontSize: 15, display: "flex" }}>{skill.icon}</span>
-                    <span style={{ fontSize: 13, color: hovered ? "#f8fafc" : "rgba(248,250,252,0.7)", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, transition: "color 0.2s" }}>
+                    <span style={{ fontSize: isMobile ? 12 : 13, color: hovered ? "#f8fafc" : "rgba(248,250,252,0.7)", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, transition: "color 0.2s" }}>
                         {skill.name}
                     </span>
                 </div>
@@ -141,7 +156,7 @@ function TimelineDot({ color, current }) {
 }
 
 // ── Experience Card ───────────────────────────────────────────────────────────
-function ExperienceCard({ exp, index, isLast }) {
+function ExperienceCard({ exp, index, isLast, isMobile }) {
     const ref = useRef();
     const inView = useInView(ref, { once: true, margin: "-60px" });
     const [expanded, setExpanded] = useState(true);
@@ -181,14 +196,15 @@ function ExperienceCard({ exp, index, isLast }) {
             >
                 {/* Card header */}
                 <div
-                    style={{ padding: "24px 28px", cursor: "pointer", userSelect: "none" }}
+                    style={{ padding: isMobile ? "18px 18px" : "24px 28px", cursor: "pointer", userSelect: "none" }}
                     onClick={() => setExpanded(!expanded)}
                 >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                             {/* Company logo */}
                             <div style={{
-                                width: 48, height: 48, borderRadius: 12,
+                                width: isMobile ? 32 : 48,
+                                height: 48, borderRadius: 12,
                                 background: `${exp.color}15`,
                                 border: `1px solid ${exp.color}30`,
                                 display: "flex", alignItems: "center", justifyContent: "center",
@@ -278,7 +294,7 @@ function ExperienceCard({ exp, index, isLast }) {
                             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                             style={{ overflow: "hidden" }}
                         >
-                            <div style={{ padding: "0 28px 28px" }}>
+                            <div style={{ padding: isMobile ? "0 18px 20px" : "0 28px 28px", }}>
                                 {/* Divider */}
                                 <div style={{ height: 1, background: "rgba(255,255,255,0.05)", marginBottom: 20 }} />
 
@@ -323,6 +339,8 @@ function ExperienceCard({ exp, index, isLast }) {
 
 // ── Skills Section ────────────────────────────────────────────────────────────
 function SkillsSection() {
+    const isMobile = useIsMobile();
+
     const [activeGroup, setActiveGroup] = useState(0);
     const ref = useRef();
     const inView = useInView(ref, { once: true });
@@ -365,7 +383,7 @@ function SkillsSection() {
                         background: "#0d0d0d",
                         border: `1px solid rgba(255,255,255,0.06)`,
                         borderRadius: 18,
-                        padding: "32px 36px",
+                        padding: isMobile ? "22px 20px" : "32px 36px",
                     }}
                 >
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
@@ -391,6 +409,8 @@ function SkillsSection() {
 
 // ── Core Concepts Pills ───────────────────────────────────────────────────────
 function CoreConcepts() {
+    const isMobile = useIsMobile();
+
     const ref = useRef();
     const inView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -430,9 +450,11 @@ function CoreConcepts() {
 
 // ── Section Label ─────────────────────────────────────────────────────────────
 function SectionLabel({ text }) {
+    const isMobile = useIsMobile();
+
     return (
         <motion.div
-            style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 52 }}
+            style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: isMobile ? 36 : 52, }}
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -446,6 +468,8 @@ function SectionLabel({ text }) {
 
 // ── Main Export ───────────────────────────────────────────────────────────────
 export default function ExperienceAndSkills() {
+    const isMobile = useIsMobile();
+
     return (
         <>
             <style>{`
@@ -456,7 +480,7 @@ export default function ExperienceAndSkills() {
 
             <div style={{
                 background: "#080808",
-                padding: "100px 0 120px",
+                padding: isMobile ? "80px 0 90px" : "100px 0 120px",
                 fontFamily: "'DM Sans', sans-serif",
                 position: "relative",
                 overflow: "hidden",
@@ -489,7 +513,7 @@ export default function ExperienceAndSkills() {
                             — WHERE I'VE BEEN &amp; WHAT I KNOW
                         </motion.p>
                         <h1 style={{
-                            fontSize: "clamp(48px, 7vw, 84px)", fontWeight: 900,
+                            fontSize: isMobile ? "44px" : "clamp(48px, 7vw, 84px)", fontWeight: 900,
                             lineHeight: 1, letterSpacing: "-0.04em",
                             color: "#f8fafc", fontFamily: "'Playfair Display', Georgia, serif",
                             margin: "0 0 20px",
@@ -505,8 +529,8 @@ export default function ExperienceAndSkills() {
                     {/* ── Two-column layout ───────────────────────────────────── */}
                     <div style={{
                         display: "grid",
-                        gridTemplateColumns: "1fr 1fr",
-                        gap: 60,
+                        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                        gap: isMobile ? 50 : 60,
                         alignItems: "start",
                     }}>
                         {/* LEFT: Experience */}
@@ -518,6 +542,7 @@ export default function ExperienceAndSkills() {
                                     exp={exp}
                                     index={i}
                                     isLast={i === experiences.length - 1}
+                                    isMobile={isMobile}
                                 />
                             ))}
                         </div>
@@ -534,12 +559,13 @@ export default function ExperienceAndSkills() {
                     <motion.div
                         style={{
                             marginTop: 80,
-                            padding: "28px 36px",
+                            padding: isMobile ? "22px 20px" : "28px 36px",
                             borderRadius: 18,
                             border: "1px solid rgba(163,230,53,0.15)",
                             background: "rgba(163,230,53,0.03)",
                             display: "flex",
-                            alignItems: "center",
+                            flexDirection: isMobile ? "column" : "row",
+                            alignItems: isMobile ? "flex-start" : "center",
                             justifyContent: "space-between",
                             flexWrap: "wrap",
                             gap: 20,

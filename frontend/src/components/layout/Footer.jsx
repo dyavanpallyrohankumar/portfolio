@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaArrowUp } from "react-icons/fa";
 import { SiSpringboot, SiReact, SiMongodb } from "react-icons/si";
+import { useIsMobile } from "../sections/Hero";
 
 const QUICK_LINKS = [
     { label: "About", href: "/#about" },
@@ -31,12 +32,49 @@ const STACK_ICONS = [
 ];
 
 // Scroll-to-top button
+// function ScrollTop() {
+//     const [visible, setVisible] = useState(false);
+
+//     if (typeof window !== "undefined") {
+//         window.addEventListener("scroll", () => setVisible(window.scrollY > 400), { passive: true });
+//     }
+
+//     return (
+//         <AnimatePresence>
+//             {visible && (
+//                 <motion.button
+//                     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+//                     style={{
+//                         position: "fixed", bottom: 32, right: 32,
+//                         width: 44, height: 44, borderRadius: 10,
+//                         background: "rgba(163,230,53,0.1)",
+//                         border: "1px solid rgba(163,230,53,0.35)",
+//                         color: "#a3e635", cursor: "pointer",
+//                         display: "flex", alignItems: "center", justifyContent: "center",
+//                         zIndex: 999,
+//                     }}
+//                     initial={{ opacity: 0, y: 20 }}
+//                     animate={{ opacity: 1, y: 0 }}
+//                     exit={{ opacity: 0, y: 20 }}
+//                     whileHover={{ background: "#a3e635", color: "#080808", scale: 1.08 }}
+//                     whileTap={{ scale: 0.93 }}
+//                 >
+//                     <FaArrowUp size={14} />
+//                 </motion.button>
+//             )}
+//         </AnimatePresence>
+//     );
+// }
 function ScrollTop() {
     const [visible, setVisible] = useState(false);
 
-    if (typeof window !== "undefined") {
-        window.addEventListener("scroll", () => setVisible(window.scrollY > 400), { passive: true });
-    }
+    useEffect(() => {
+        const onScroll = () => setVisible(window.scrollY > 400);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    const isMobile = useIsMobile();
 
     return (
         <AnimatePresence>
@@ -44,19 +82,24 @@ function ScrollTop() {
                 <motion.button
                     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                     style={{
-                        position: "fixed", bottom: 32, right: 32,
-                        width: 44, height: 44, borderRadius: 10,
+                        position: "fixed",
+                        bottom: isMobile ? 20 : 32,
+                        right: isMobile ? 20 : 32,
+                        width: 44,
+                        height: 44,
+                        borderRadius: 10,
                         background: "rgba(163,230,53,0.1)",
                         border: "1px solid rgba(163,230,53,0.35)",
-                        color: "#a3e635", cursor: "pointer",
-                        display: "flex", alignItems: "center", justifyContent: "center",
+                        color: "#a3e635",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                         zIndex: 999,
                     }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
-                    whileHover={{ background: "#a3e635", color: "#080808", scale: 1.08 }}
-                    whileTap={{ scale: 0.93 }}
                 >
                     <FaArrowUp size={14} />
                 </motion.button>
@@ -64,7 +107,6 @@ function ScrollTop() {
         </AnimatePresence>
     );
 }
-
 // Animated availability badge
 function AvailabilityBadge() {
     return (
@@ -94,6 +136,7 @@ function AvailabilityBadge() {
 
 export default function Footer() {
     const ref = useRef();
+    const isMobile = useIsMobile();
     const inView = useInView(ref, { once: true, margin: "-80px" });
 
     return (
@@ -129,17 +172,19 @@ export default function Footer() {
                 }} />
 
                 {/* ── CTA Banner ───────────────────────────────────────────── */}
-                <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 24px 0", position: "relative", zIndex: 1 }}>
+                <div style={{ maxWidth: 1100, margin: "0 auto", padding: isMobile ? "60px 20px 0" : "80px 24px 0", position: "relative", zIndex: 1 }}>
                     <motion.div
                         style={{
                             borderRadius: 24,
                             border: "1px solid rgba(163,230,53,0.15)",
                             background: "linear-gradient(135deg, rgba(163,230,53,0.04) 0%, rgba(8,8,8,0) 60%)",
-                            padding: "56px 52px",
+
                             marginBottom: 72,
                             display: "grid",
-                            gridTemplateColumns: "1fr auto",
-                            gap: 40,
+                            gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
+                            padding: isMobile ? "36px 24px" : "56px 52px",
+                            gap: isMobile ? 28 : 40,
+                            textAlign: isMobile ? "center" : "left",
                             alignItems: "center",
                         }}
                         initial={{ opacity: 0, y: 50 }}
@@ -166,7 +211,7 @@ export default function Footer() {
                             </p>
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "column", gap: 14, alignItems: "flex-end" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 14, alignItems: isMobile ? "center" : "flex-end" }}>
                             <motion.a
                                 href="mailto:dyavanpallyrohan@gmail.com"
                                 style={{
@@ -174,7 +219,7 @@ export default function Footer() {
                                     padding: "14px 32px", borderRadius: 12,
                                     background: "#a3e635", color: "#080808",
                                     fontSize: 14, fontWeight: 800, textDecoration: "none",
-                                    whiteSpace: "nowrap",
+                                    whiteSpace: isMobile ? "normal" : "nowrap"
                                 }}
                                 whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(163,230,53,0.3)" }}
                                 whileTap={{ scale: 0.97 }}
@@ -205,8 +250,8 @@ export default function Footer() {
                     {/* ── Footer columns ───────────────────────────────────────── */}
                     <div style={{
                         display: "grid",
-                        gridTemplateColumns: "2fr 1fr 1fr",
-                        gap: 48,
+                        gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr 1fr",
+                        gap: isMobile ? 40 : 48,
                         paddingBottom: 56,
                         borderBottom: "1px solid rgba(255,255,255,0.05)",
                     }}>
@@ -230,7 +275,7 @@ export default function Footer() {
                                 <span style={{ color: "#a3e635", fontFamily: "'DM Mono', monospace", fontSize: 18, fontWeight: 700 }}>/&gt;</span>
                             </a>
 
-                            <p style={{ fontSize: 14, color: "rgba(248,250,252,0.35)", lineHeight: 1.75, margin: "0 0 28px", maxWidth: 320 }}>
+                            <p style={{ fontSize: 14, color: "rgba(248,250,252,0.35)", lineHeight: 1.75, margin: "0 0 28px", maxWidth: isMobile ? "100%" : 320 }}>
                                 Full-Stack Developer & Software Engineer. Building scalable systems with Java, Spring Boot, React, and cloud-native tools.
                             </p>
 
@@ -302,7 +347,7 @@ export default function Footer() {
                                         key={link.href}
                                         href={link.href}
                                         style={{
-                                            fontSize: 14, color: "rgba(248,250,252,0.35)",
+                                            fontSize: isMobile ? 15 : 14, color: "rgba(248,250,252,0.35)",
                                             textDecoration: "none", display: "flex", alignItems: "center", gap: 8,
                                         }}
                                         whileHover={{ color: "#f8fafc", x: 6 }}
@@ -366,7 +411,11 @@ export default function Footer() {
                     {/* ── Bottom bar ───────────────────────────────────────────── */}
                     <motion.div
                         style={{
-                            display: "flex", justifyContent: "space-between", alignItems: "center",
+                            display: "flex",
+                            flexDirection: isMobile ? "column" : "row",
+                            justifyContent: "space-between",
+                            alignItems: isMobile ? "center" : "center",
+                            textAlign: isMobile ? "center" : "left",
                             padding: "24px 0", flexWrap: "wrap", gap: 16,
                         }}
                         initial={{ opacity: 0 }}

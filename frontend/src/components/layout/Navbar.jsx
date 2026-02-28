@@ -250,85 +250,85 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                {/* ── Mobile Menu Overlay ──────────────────────────────────────── */}
-                <AnimatePresence>
-                    {mobileOpen && (
-                        <motion.div
-                            style={{
-                                position: "fixed", inset: 0,
-                                background: "#080808",
-                                zIndex: -1,
-                                display: "flex", flexDirection: "column",
-                                justifyContent: "center", alignItems: "center",
-                                gap: 0,
-                            }}
-                            initial={{ opacity: 0, clipPath: "circle(0% at calc(100% - 44px) 38px)" }}
-                            animate={{ opacity: 1, clipPath: "circle(150% at calc(100% - 44px) 38px)" }}
-                            exit={{ opacity: 0, clipPath: "circle(0% at calc(100% - 44px) 38px)" }}
-                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                        >
-                            {/* Grid bg */}
-                            <div style={{
-                                position: "absolute", inset: 0,
-                                backgroundImage: `linear-gradient(rgba(163,230,53,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(163,230,53,0.03) 1px, transparent 1px)`,
-                                backgroundSize: "60px 60px", pointerEvents: "none",
-                            }} />
 
-                            {NAV_LINKS.map((link, i) => (
-                                <motion.a
-                                    key={link.href}
-                                    href={link.href}
-                                    onClick={() => setMobileOpen(false)}
-                                    style={{
-                                        textDecoration: "none",
-                                        fontSize: "clamp(36px, 8vw, 64px)",
-                                        fontWeight: 900,
-                                        fontFamily: "'Playfair Display', Georgia, serif",
-                                        letterSpacing: "-0.03em",
-                                        color: active === link.href ? "#a3e635" : "rgba(248,250,252,0.25)",
-                                        lineHeight: 1.2,
-                                        padding: "6px 0",
-                                        position: "relative",
-                                    }}
-                                    initial={{ opacity: 0, x: -60 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                                    whileHover={{ color: "#a3e635", x: 16 }}
-                                >
-                                    <span style={{ fontSize: 12, color: "#a3e635", fontFamily: "'DM Mono', monospace", marginRight: 14, verticalAlign: "middle" }}>
-                                        0{i + 1}.
-                                    </span>
-                                    {link.label}
-                                </motion.a>
-                            ))}
-
-                            {/* Bottom social + resume */}
-                            <motion.div
-                                style={{ marginTop: 48, display: "flex", gap: 20, alignItems: "center" }}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.45 }}
-                            >
-                                <a href="https://github.com/dyavanpallyrohankumar" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(248,250,252,0.4)", fontSize: 22 }}>
-                                    <FaGithub />
-                                </a>
-                                <a href="https://linkedin.com/in/dyavanpallyrohankumar" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(248,250,252,0.4)", fontSize: 22 }}>
-                                    <FaLinkedin />
-                                </a>
-                                <a href="/resume" style={{
-                                    padding: "8px 22px", borderRadius: 8,
-                                    border: "1px solid rgba(163,230,53,0.4)",
-                                    color: "#a3e635", fontSize: 12, fontWeight: 700,
-                                    textDecoration: "none", fontFamily: "'DM Mono', monospace",
-                                }}>
-                                    RESUME ↗
-                                </a>
-                            </motion.div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
             </motion.nav>
+            {/* ── Mobile Menu Overlay ──────────────────────────────────────── */}
+            <AnimatePresence>
+                {mobileOpen && (
+                    <motion.div
+                        style={{
+                            position: "fixed", inset: 0,
+                            background: "#080808",
+                            zIndex: 999,
+                            display: "flex", flexDirection: "column",
+                            justifyContent: "center", alignItems: "center",
+                            gap: 0,
+                        }}
+                        initial={{ opacity: 0, clipPath: "circle(0% at calc(100% - 44px) 38px)" }}
+                        animate={{ opacity: 1, clipPath: "circle(150% at calc(100% - 44px) 38px)" }}
+                        exit={{ opacity: 0, clipPath: "circle(0% at calc(100% - 44px) 38px)" }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        {/* Grid bg */}
+                        <div style={{
+                            position: "absolute", inset: 0,
+                            backgroundImage: `linear-gradient(rgba(163,230,53,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(163,230,53,0.03) 1px, transparent 1px)`,
+                            backgroundSize: "60px 60px", pointerEvents: mobileOpen ? "none" : "auto",
+                        }} />
 
+                        {NAV_LINKS.map((link, i) => (
+                            <motion.a
+                                key={link.href}
+                                href={link.href}
+                                onClick={() => setMobileOpen(false)}
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: "clamp(36px, 8vw, 64px)",
+                                    fontWeight: 900,
+                                    fontFamily: "'Playfair Display', Georgia, serif",
+                                    letterSpacing: "-0.03em",
+                                    color: active === link.href ? "#a3e635" : "rgba(248,250,252,0.25)",
+                                    lineHeight: 1.2,
+                                    padding: "6px 0",
+                                    position: "relative",
+                                }}
+                                initial={{ opacity: 0, x: -60 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                whileHover={{ color: "#a3e635", x: 16 }}
+                            >
+                                <span style={{ fontSize: 12, color: "#a3e635", fontFamily: "'DM Mono', monospace", marginRight: 14, verticalAlign: "middle" }}>
+                                    0{i + 1}.
+                                </span>
+                                {link.label}
+                            </motion.a>
+                        ))}
+
+                        {/* Bottom social + resume */}
+                        <motion.div
+                            style={{ marginTop: 48, display: "flex", gap: 20, alignItems: "center" }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.45 }}
+                        >
+                            <a href="https://github.com/dyavanpallyrohankumar" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(248,250,252,0.4)", fontSize: 22 }}>
+                                <FaGithub />
+                            </a>
+                            <a href="https://linkedin.com/in/dyavanpallyrohankumar" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(248,250,252,0.4)", fontSize: 22 }}>
+                                <FaLinkedin />
+                            </a>
+                            <a href="/resume" style={{
+                                padding: "8px 22px", borderRadius: 8,
+                                border: "1px solid rgba(163,230,53,0.4)",
+                                color: "#a3e635", fontSize: 12, fontWeight: 700,
+                                textDecoration: "none", fontFamily: "'DM Mono', monospace",
+                            }}>
+                                RESUME ↗
+                            </a>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
             {/* Responsive styles */}
             <style>{`
         @media (max-width: 768px) {
