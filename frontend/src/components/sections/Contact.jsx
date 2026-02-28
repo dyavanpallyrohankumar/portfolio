@@ -173,19 +173,57 @@ export default function Contact() {
         setForm((f) => ({ ...f, [name]: value }));
         if (errors[name]) setErrors((er) => ({ ...er, [name]: "" }));
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const errs = validate();
-        if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+        if (Object.keys(errs).length > 0) {
+            setErrors(errs);
+            return;
+        }
 
         setStatus("sending");
-        // Simulate API call — replace with your actual email service (EmailJS, Formspree, etc.)
-        await new Promise((res) => setTimeout(res, 2000));
-        setStatus("success");
-        setToast({ type: "success", message: "Message sent! I'll get back to you within 24 hours." });
-        setForm({ name: "", email: "", subject: "", message: "" });
-        setTimeout(() => setStatus("idle"), 3000);
+
+        const subject = encodeURIComponent(form.subject);
+
+        const body = encodeURIComponent(
+            `Hello Rohan,
+
+You have received a new message from your portfolio website.
+
+----------------------------------
+
+Name: ${form.name}
+Email: ${form.email}
+Subject: ${form.subject}
+
+Message:
+${form.message}
+
+----------------------------------
+
+Sent from rohankumar.dev`
+        );
+
+        const mailtoLink = `mailto:dyavanpallyrohan@gmail.com?subject=${subject}&body=${body}`;
+
+        // Small delay for animation smoothness
+        setTimeout(() => {
+            window.location.href = mailtoLink;
+
+            setStatus("success");
+            setToast({
+                type: "success",
+                message: "Email client opened. Complete the send process there.",
+            });
+
+            setForm({ name: "", email: "", subject: "", message: "" });
+
+            setTimeout(() => {
+                setStatus("idle");
+            }, 2500);
+
+        }, 600);
     };
 
     return (
