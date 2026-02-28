@@ -1,0 +1,6 @@
+[submodule "frontend/secrets"]
+	path = frontend/secrets
+	url = https://github.com/dyavanpallyrohankumar/sensitive_data.git
+[submodule "backend/secrets"]
+	path = backend/secrets
+	url = https://github.com/dyavanpallyrohankumar/sensitive_data.git

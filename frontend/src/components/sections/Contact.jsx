@@ -122,7 +122,7 @@ function FloatInput({ label, name, type = "text", value, onChange, error, multil
 }
 
 // ── Toast notification ────────────────────────────────────────────────────────
-function Toast({ type, message, onClose }) {
+function Toast({ type, message, onClose, isMobile }) {
     return (
         <motion.div
             style={{
@@ -553,7 +553,10 @@ export default function Contact() {
             {/* Toast */}
             <AnimatePresence>
                 {toast && (
-                    <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />
+                    <Toast type={toast.type}
+                        message={toast.message}
+                        onClose={() => setToast(null)}
+                        isMobile={isMobile} />
                 )}
             </AnimatePresence>
         </>
