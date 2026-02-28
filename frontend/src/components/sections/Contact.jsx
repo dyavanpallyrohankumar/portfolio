@@ -6,6 +6,9 @@ import {
     FaCheckCircle, FaExclamationCircle,
 } from "react-icons/fa";
 import { SiSpringboot } from "react-icons/si";
+import emailjs from "@emailjs/browser";
+import { useIsMobile } from "./Hero";
+
 
 // ── Contact info items ────────────────────────────────────────────────────────
 const CONTACT_ITEMS = [
@@ -123,14 +126,16 @@ function Toast({ type, message, onClose }) {
     return (
         <motion.div
             style={{
-                position: "fixed", bottom: 32, right: 32, zIndex: 9999,
+                position: "fixed", bottom: isMobile ? 20 : 32,
+                right: isMobile ? 20 : 32,
+                left: isMobile ? 20 : "auto",
+                maxWidth: isMobile ? "calc(100% - 40px)" : 360, zIndex: 9999,
                 display: "flex", alignItems: "center", gap: 12,
                 padding: "14px 20px", borderRadius: 12,
                 background: type === "success" ? "rgba(13,13,13,0.95)" : "rgba(13,13,13,0.95)",
                 border: `1px solid ${type === "success" ? "rgba(163,230,53,0.4)" : "rgba(248,113,113,0.4)"}`,
                 backdropFilter: "blur(20px)",
                 boxShadow: `0 8px 40px ${type === "success" ? "rgba(163,230,53,0.1)" : "rgba(248,113,113,0.1)"}`,
-                maxWidth: 360,
             }}
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -150,6 +155,7 @@ function Toast({ type, message, onClose }) {
 // ── Main Contact ──────────────────────────────────────────────────────────────
 export default function Contact() {
     const ref = useRef();
+    const isMobile = useIsMobile();
     const inView = useInView(ref, { once: true, margin: "-80px" });
 
     const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -173,6 +179,64 @@ export default function Contact() {
         setForm((f) => ({ ...f, [name]: value }));
         if (errors[name]) setErrors((er) => ({ ...er, [name]: "" }));
     };
+
+    //     // Without Email Dependency
+    //     const handleSubmit = async (e) => {
+    //         e.preventDefault();
+
+    //         const errs = validate();
+    //         if (Object.keys(errs).length > 0) {
+    //             setErrors(errs);
+    //             return;
+    //         }
+
+    //         setStatus("sending");
+
+    //         const subject = encodeURIComponent(form.subject);
+
+    //         const body = encodeURIComponent(
+    //             `Hello Rohan,
+
+    // You have received a new message from your portfolio website.
+
+    // ----------------------------------
+
+    // Name: ${form.name}
+    // Email: ${form.email}
+    // Subject: ${form.subject}
+
+    // Message:
+    // ${form.message}
+
+    // ----------------------------------
+
+    // Sent from rohankumar.dev`
+    //         );
+
+    //         const mailtoLink = `mailto:dyavanpallyrohan@gmail.com?subject=${subject}&body=${body}`;
+
+    //         // Small delay for animation smoothness
+    //         setTimeout(() => {
+    //             window.location.href = mailtoLink;
+
+    //             setStatus("success");
+    //             setToast({
+    //                 type: "success",
+    //                 message: "Email client opened. Complete the send process there.",
+    //             });
+
+    //             setForm({ name: "", email: "", subject: "", message: "" });
+
+    //             setTimeout(() => {
+    //                 setStatus("idle");
+    //             }, 2500);
+
+    //         }, 600);
+    //     };
+
+
+    // With Email Depencency : emailjs
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -182,48 +246,38 @@ export default function Contact() {
             return;
         }
 
-        setStatus("sending");
+        try {
+            setStatus("sending");
 
-        const subject = encodeURIComponent(form.subject);
-
-        const body = encodeURIComponent(
-            `Hello Rohan,
-
-You have received a new message from your portfolio website.
-
-----------------------------------
-
-Name: ${form.name}
-Email: ${form.email}
-Subject: ${form.subject}
-
-Message:
-${form.message}
-
-----------------------------------
-
-Sent from rohankumar.dev`
-        );
-
-        const mailtoLink = `mailto:dyavanpallyrohan@gmail.com?subject=${subject}&body=${body}`;
-
-        // Small delay for animation smoothness
-        setTimeout(() => {
-            window.location.href = mailtoLink;
+            await emailjs.send(
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+                {
+                    from_name: form.name,
+                    from_email: form.email,
+                    subject: form.subject,
+                    message: form.message,
+                },
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
 
             setStatus("success");
             setToast({
                 type: "success",
-                message: "Email client opened. Complete the send process there.",
+                message: "Message sent successfully! I’ll get back to you within 24 hours.",
             });
 
             setForm({ name: "", email: "", subject: "", message: "" });
 
-            setTimeout(() => {
-                setStatus("idle");
-            }, 2500);
-
-        }, 600);
+        } catch (error) {
+            console.error(error);
+            setStatus("error");
+            setToast({
+                type: "error",
+                message: "Something went wrong. Please try again or email me directly.",
+            });
+        } finally {
+            setTimeout(() => setStatus("idle"), 3000);
+        }
     };
 
     return (
@@ -239,8 +293,9 @@ Sent from rohankumar.dev`
                 ref={ref}
                 style={{
                     background: "#080808",
-                    padding: "100px 24px 120px",
-                    position: "relative",
+                    padding: isMobile
+                        ? "80px 18px 90px"
+                        : "100px 24px 120px", position: "relative",
                     overflow: "hidden",
                     fontFamily: "'DM Sans', sans-serif",
                 }}
@@ -268,13 +323,20 @@ Sent from rohankumar.dev`
                         <motion.p style={{ fontSize: 11, letterSpacing: "0.3em", color: "#a3e635", fontFamily: "'DM Mono', monospace", margin: "0 0 16px" }}>
                             — GET IN TOUCH
                         </motion.p>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 20 }}>
-                            <h2 style={{
-                                fontSize: "clamp(46px, 7vw, 82px)", fontWeight: 900,
-                                letterSpacing: "-0.04em", lineHeight: 1,
-                                fontFamily: "'Playfair Display', Georgia, serif",
-                                color: "#f8fafc", margin: 0,
-                            }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: isMobile ? "column" : "row",
+                                justifyContent: "space-between",
+                                alignItems: isMobile ? "flex-start" : "flex-end",
+                                gap: isMobile ? 24 : 20,
+                            }}
+                        >                            <h2 style={{
+                            fontSize: "clamp(46px, 7vw, 82px)", fontWeight: 900,
+                            letterSpacing: "-0.04em", lineHeight: 1,
+                            fontFamily: "'Playfair Display', Georgia, serif",
+                            color: "#f8fafc", margin: 0,
+                        }}>
                                 Let's{" "}
                                 <span style={{ WebkitTextStroke: "2px #a3e635", WebkitTextFillColor: "transparent" }}>
                                     Connect
@@ -305,8 +367,14 @@ Sent from rohankumar.dev`
                     </motion.div>
 
                     {/* ── 2-col layout ────────────────────────────────────────── */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 48, alignItems: "start" }}>
-
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: isMobile ? "1fr" : "1fr 1.4fr",
+                            gap: isMobile ? 36 : 48,
+                            alignItems: "start",
+                        }}
+                    >
                         {/* LEFT: Info ─────────────────────────────────────────── */}
                         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
                             <motion.p
@@ -402,8 +470,7 @@ Sent from rohankumar.dev`
                                 background: "#0d0d0d",
                                 border: "1px solid rgba(255,255,255,0.06)",
                                 borderRadius: 20,
-                                padding: "36px 36px",
-                                position: "relative",
+                                padding: isMobile ? "28px 20px" : "36px 36px", position: "relative",
                                 overflow: "hidden",
                             }}
                             initial={{ opacity: 0, y: 40 }}
@@ -428,8 +495,13 @@ Sent from rohankumar.dev`
                             </p>
 
                             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }} noValidate>
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                                    <FloatInput label="Your Name" name="name" value={form.name} onChange={handleChange} error={errors.name} />
+                                <div
+                                    style={{
+                                        display: "grid",
+                                        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                                        gap: 14,
+                                    }}
+                                >                                    <FloatInput label="Your Name" name="name" value={form.name} onChange={handleChange} error={errors.name} />
                                     <FloatInput label="Email Address" name="email" type="email" value={form.email} onChange={handleChange} error={errors.email} />
                                 </div>
                                 <FloatInput label="Subject" name="subject" value={form.subject} onChange={handleChange} error={errors.subject} />
